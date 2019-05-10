@@ -30,7 +30,23 @@
 */
 
 //Code Here
+class Employee {
+  constructor(first_name,last_name,email,age) {
+    this.first_name = first_name
+    this.last_name = last_name
+    this.email = email
+    this.age = age
+  }
+  
+  makeWidget() {
+    return `${this.first_name} ${this.last_name} Widget`
+  }
+  
+}
 
+let fred = new Employee('Fred','Tucker','fredTucker@gmail.com',25)
+
+fred.makeWidget()
 
 ////////// PROBLEM 2 //////////
 
@@ -48,7 +64,22 @@
 */
 
 //Code Here
+class Manager extends Employee {
+  constructor(first_name,last_name,email,age) {
+    super(first_name,last_name,email,age)
+    this.reports = []
+  }
+  hire(employee) {
+    return this.reports.push(employee)
+  }
 
+  fire(index) {
+    return this.reports.splice(index,1)
+  }
+
+}
+
+let tom = new Manager('Tom','Sanders','tomSanders@gmail.com',35,Manager.reports)
 
 ////////// PROBLEM 3 //////////
 
@@ -72,8 +103,47 @@
 */
 
 //Code Here
+class ProgressiveManager extends Manager {
+  constructor(first_name,last_name,email,age,reports) {
+    super(first_name,last_name,email,age,reports)
+    this.title = 'Not a manager'
+    this.bonus = 0
+  }
 
+  hire(employee) {
+    this.reports.push(employee)
+    if (this.reports.length > 0 && this.reports.length < 4) {
+      this.title = 'Barely Manager'
+    } else if (this.reports.length > 3 && this.reports.length < 11) {
+      this.title = 'Mostly Manager'
+    } else if (this.reports.length > 10 && this.reports.length < 51) {
+      this.title = 'Manager'
+    } else if (this.reports.length > 50 && this.reports.length < 101) {
+      this.title = 'Manager Plus'
+    } else {
+      this.title = 'Bestest Manager'
+    }
+  }
 
+  fire(index) {
+    this.reports.splice(index,1)
+    this.bonus += 100
+    if (this.reports.length > 0 && this.reports.length < 4) {
+      this.title = 'Barely Manager'
+    } else if (this.reports.length > 3 && this.reports.length < 11) {
+      this.title = 'Mostly Manager'
+    } else if (this.reports.length > 10 && this.reports.length < 51) {
+      this.title = 'Manager'
+    } else if (this.reports.length > 50 && this.reports.length < 101) {
+      this.title = 'Manager Plus'
+    } else {
+      this.title = 'Bestest Manager'
+    }
+  }    
+}
+
+// let jonny = new ProgressiveManager('John','Tompson','johnTompson@gmail.com',32,ProgressiveManager.reports,ProgressiveManager.title)
+// console.log(jonny.bonusTracker(51))
 
 ////////// PROBLEM 4 - Black Diamond //////////
 
@@ -99,5 +169,43 @@
 */
 
 //Code Here
+class Machine {
+  constructor() {
+    this.widgets_made_count = 0
+    this.wear_and_tear_count = 0
+    this.needs_reboot = false  
+  }
+
+  makeWidgets(num) {
+    for(let i=0; i<num; i++) {
+      this.widgets_made_count++
+    }
+    
+    this.wear_and_tear_count += Math.floor(num/50)
+  }
+
+  fixMachine() {
+    this.needs_reboot = true
+    
+  }
+
+  reboot() {
+  if(this.needs_reboot) {
+    let rebootFunc = function(num,boolean) {
+      this.wear_and_tear_count -= num
+      this.needs_reboot = boolean
+     }
+  
+     return rebootFunc.bind(this,10,false)
+  }
+}
 
 
+
+}
+// let newWidgetMaker = new Machine()
+// newWidgetMaker.makeWidgets(1000)
+
+// newWidgetMaker.fixMachine()
+// newWidgetMaker.reboot()
+// console.log(newWidgetMaker)
